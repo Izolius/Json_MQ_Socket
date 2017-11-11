@@ -8,10 +8,9 @@
 #include <utility>
 #include "IJson_Communicator.h"
 
-class Socket_Json_Communicator:public QObject, public Ijson_Communicator
+class Socket_Json_Communicator:public Ijson_Communicator
 {
     Q_OBJECT
-    Q_INTERFACES(Ijson_Communicator)
 
     QTcpSocket *m_socket;
     QTcpServer *m_server;
@@ -23,10 +22,6 @@ public:
 
     // Ijson_Communicator interface
 public:
-    virtual void setHost(QString host);
-    virtual void setUsername(QString username);
-    virtual void setPassword(QString password);
-    virtual void setPort(int port);
     virtual void Start(bool isServer);
     virtual void Send(QJsonObject obj);
 private slots:

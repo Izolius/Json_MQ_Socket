@@ -15,26 +15,6 @@ Socket_Json_Communicator::Socket_Json_Communicator()
 //    }
 //}
 
-void Socket_Json_Communicator::setHost(QString host)
-{
-    m_host=host;
-}
-
-void Socket_Json_Communicator::setUsername(QString username)
-{
-
-}
-
-void Socket_Json_Communicator::setPassword(QString password)
-{
-
-}
-
-void Socket_Json_Communicator::setPort(int port)
-{
-    m_port=port;
-}
-
 void Socket_Json_Communicator::Start(bool isServer)
 {
     if (isServer){

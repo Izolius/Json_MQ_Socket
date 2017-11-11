@@ -1,7 +1,7 @@
 #include "MQ_Json_Communicator.h"
 #include <QJsonDocument>
 
-MQ_Json_Commnunicator::MQ_Json_Commnunicator():QObject()
+MQ_Json_Commnunicator::MQ_Json_Commnunicator()
 {
     connect(&m_client,SIGNAL(connected()),this,SLOT(on_amqpClient_connected()));
     connect(&m_client,SIGNAL(disconnected()),this,SIGNAL(disconnected()));

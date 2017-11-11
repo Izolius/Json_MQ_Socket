@@ -6,10 +6,10 @@
 #include "qamqpexchange.h"
 #include <QObject>
 
-class MQ_Json_Commnunicator:public QObject, public Ijson_Communicator
+class MQ_Json_Commnunicator:public Ijson_Communicator
 {
     Q_OBJECT
-    Q_INTERFACES(Ijson_Communicator)
+    //Q_INTERFACES(Ijson_Communicator)
 
     QAmqpClient m_client;
     QAmqpQueue *m_queue;
