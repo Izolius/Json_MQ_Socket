@@ -7,18 +7,19 @@
 
 class Ijson_Communicator:public QObject
 {
+protected:
     QString m_host;
     QString m_username;
     QString m_password;
     int m_port;
 public:
-    virtual void setHost(QString host){m_host=host;}
-    virtual void setUsername(QString username){m_username=username;}
-    virtual void setPassword(QString password){m_password=password;}
-    virtual void setPort(int port){m_port=port;}
-    virtual void Start(bool toRead){toRead=!toRead;}
-
-    virtual void Send(QJsonObject obj){(void)obj;}
+    virtual void setHost(QString host);
+    virtual void setUsername(QString username);
+    virtual void setPassword(QString password);
+    virtual void setPort(int port);
+    virtual void Start(bool toRead);
+    static QString CurrentIP();
+    virtual void Send(QJsonObject obj);
 
 signals:
     void connected();

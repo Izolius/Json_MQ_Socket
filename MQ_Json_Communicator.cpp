@@ -1,8 +1,10 @@
 #include "MQ_Json_Communicator.h"
+#include <QNetworkInterface>
 #include <QJsonDocument>
 
 MQ_Json_Commnunicator::MQ_Json_Commnunicator()
 {
+    m_client.setAutoReconnect(true);
     connect(&m_client,SIGNAL(connected()),this,SLOT(on_amqpClient_connected()));
     connect(&m_client,SIGNAL(disconnected()),this,SIGNAL(disconnected()));
     connect(&m_client,SIGNAL(connected()),this,SIGNAL(connected()));
@@ -71,6 +73,7 @@ void MQ_Json_Commnunicator::on_message_received()
 void MQ_Json_Commnunicator::Send(QJsonObject obj)
 {
     if (m_queue && m_queue){
+        obj["address"]=CurrentIP();
         QJsonDocument doc(obj);
         m_exchange->publish(doc.toJson(),m_queueName);
     }

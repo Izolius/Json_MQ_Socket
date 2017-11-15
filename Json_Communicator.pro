@@ -8,7 +8,7 @@ QT       += network
 
 QT       -= gui
 
-TARGET = Json_Communicator
+TARGET = Json_MQ_Socket
 TEMPLATE = lib
 
 DEFINES += MQ_JSON_COMMUNICATOR_LIBRARY
@@ -26,7 +26,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         MQ_Json_Communicator.cpp \
-    Socket_Json_Communicator.cpp
+    Socket_Json_Communicator.cpp \
+    IJson_Communicator.cpp
 
 HEADERS += \
         MQ_Json_Communicator.h \

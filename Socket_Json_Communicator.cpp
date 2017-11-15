@@ -6,6 +6,7 @@
 Socket_Json_Communicator::Socket_Json_Communicator()
 {
     m_socket=nullptr;
+    m_server=nullptr;
 }
 
 //Socket_Json_Communicator::~Socket_Json_Communicator()
@@ -18,13 +19,15 @@ Socket_Json_Communicator::Socket_Json_Communicator()
 void Socket_Json_Communicator::Start(bool isServer)
 {
     if (isServer){
-        m_server=new QTcpServer(this);
-        if(m_server->listen(QHostAddress::LocalHost, m_port)){
-            qDebug()<<"Server start listening";
-        }else{
-            qDebug()<<m_server->errorString();
+        if (!m_server){
+            m_server=new QTcpServer(this);
+            if(m_server->listen(QHostAddress(m_host), m_port)){
+                qDebug()<<"Server start listening";
+            }else{
+                qDebug()<<m_server->errorString();
+            }
+            connect(m_server,SIGNAL(newConnection()),this,SLOT(newClient()));
         }
-        connect(m_server,SIGNAL(newConnection()),this,SLOT(newClient()));
     }else{
         if (!m_socket){
             m_socket=new QTcpSocket(this);
@@ -33,13 +36,14 @@ void Socket_Json_Communicator::Start(bool isServer)
             connect(m_socket,SIGNAL(readyRead()),this,SLOT(on_read_message()));
         }
         m_socket->abort();
-        m_socket->connectToHost(QHostAddress::LocalHost,m_port);
+        m_socket->connectToHost(m_host,m_port);
     }
 }
 
 void Socket_Json_Communicator::Send(QJsonObject obj)
 {
     if (m_socket){
+        obj["address"]=CurrentIP();
         m_socket->write(QJsonDocument(obj).toJson());
         m_socket->flush();
     }
@@ -59,8 +63,6 @@ void Socket_Json_Communicator::on_read_message()
     QTcpSocket *Sender(qobject_cast<QTcpSocket*>(sender()));
     QTextStream ds(Sender);
     QJsonObject obj=QJsonDocument::fromJson(ds.readAll().toUtf8()).object();
-    obj.insert("addres",Sender->peerAddress().toString());
-    obj.insert("port",Sender->peerPort());
     qDebug()<<" [x] Received " << obj;
     emit MessageReceived(obj);
 

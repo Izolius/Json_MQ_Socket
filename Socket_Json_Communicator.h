@@ -14,8 +14,6 @@ class Socket_Json_Communicator:public Ijson_Communicator
 
     QTcpSocket *m_socket;
     QTcpServer *m_server;
-    QString m_host;
-    int m_port;
     std::map<QTcpSocket* , std::pair<QHostAddress,int> > m_clients;
 public:
     Socket_Json_Communicator();
